@@ -37,7 +37,6 @@ const FEATURES = [
   'conditioner'
 ];
 const MIN_FEATURES_QUANTITY = 1;
-const MAX_FEATURES_QUANTITY = 6;
 const DESCRIPTIONS = [
   'Двухкомнатная квартира в центре города. В шаговой доступности море, и вся инфраструктура. Квартира после ремонта , светлая чистая. Одна спальня. в Зале диван раскладной, на балконе возможно поставить диван на одного человека. Кухня. Стиральная машинка',
   'Уютная квартира с новым стильным ремонтом и панорамными окнами ждет Вас. К Вашим услугам вся необходимая бытовая техника: два кондиционера, WI-FI, стиральная машина с функцией сушки и посудомоечная, телевизор smart и мебель для комфортного семейного отдыха.',
@@ -52,7 +51,6 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 const MIN_PHOTOS_QUANTITY = 1;
-const MAX_PHOTOS_QUANTITY = 3;
 const MIN_LAT = 35.65000;
 const MAX_LAT = 35.70000;
 const MIN_LNG = 139.70000;
@@ -75,9 +73,9 @@ const createFlat = () => {
       guests: getRandomPositiveInteger(MIN_GUESTS_QUANTITY, MAX_GUESTS_QUANTITY),
       checkin: getRandomArrayElement(CHECKIN_CHECKOUT_OPTIONS),
       checkout: getRandomArrayElement(CHECKIN_CHECKOUT_OPTIONS),
-      features: getSlicedShuffledArray(FEATURES, MIN_FEATURES_QUANTITY, MAX_FEATURES_QUANTITY),
+      features: getSlicedShuffledArray(FEATURES, MIN_FEATURES_QUANTITY, FEATURES.length),
       description: getRandomArrayElement(DESCRIPTIONS),
-      photos: getSlicedShuffledArray(PHOTOS, MIN_PHOTOS_QUANTITY, MAX_PHOTOS_QUANTITY)
+      photos: getSlicedShuffledArray(PHOTOS, MIN_PHOTOS_QUANTITY, PHOTOS.length)
     },
     location: {
       lat: lat,
