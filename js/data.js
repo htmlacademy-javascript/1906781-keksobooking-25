@@ -9,8 +9,8 @@ const TITLES = [
   'Квартира в новом ЖК',
   'Уютная квартира в центре'
 ];
-const MIN_PRICE = 25000;
-const MAX_PRICE = 50000;
+const MIN_PRICE = 1000;
+const MAX_PRICE = 10000;
 const TYPES = [
   'palace',
   'flat',
@@ -83,5 +83,5 @@ const createFlat = () => {
     }
   };
 };
-const createFlats = () => Array.from({length: FLATS_COUNT}, createFlat);
-export {createFlats};
+const createCardsData = () => Array.from({length: FLATS_COUNT}, createFlat);
+export {createCardsData};

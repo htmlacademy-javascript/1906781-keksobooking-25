@@ -35,4 +35,6 @@ const generateNumbers = (arrayLength) => Array.from({length: arrayLength}, (item
   return number;
 });
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getUniqueArayElement, getRandomArrayElement, getSlicedShuffledArray, generateNumbers};
+const isUndefined = (item) => item === undefined;
+
+export {getRandomPositiveInteger, getRandomPositiveFloat, getUniqueArayElement, getRandomArrayElement, getSlicedShuffledArray, generateNumbers, isUndefined};

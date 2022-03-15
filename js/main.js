@@ -1,3 +1,4 @@
-import {createFlats} from './data.js';
+import {showFirstCard} from './draw-cards.js';
 
-createFlats();
+showFirstCard();
+
