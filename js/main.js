@@ -1,3 +1,8 @@
-import {createFlats} from './data.js';
+import {createCardsData} from './data.js';
+import {renderCards, showOneCard} from './draw-cards.js';
 
-createFlats();
+const cards = createCardsData();
+
+renderCards(cards);
+showOneCard();
+
