@@ -1,4 +1,8 @@
-import {showFirstCard} from './draw-cards.js';
+import {createCardsData} from './data.js';
+import {renderCards, showOneCard} from './draw-cards.js';
 
-showFirstCard();
+const cards = createCardsData();
+
+renderCards(cards);
+showOneCard();
 
