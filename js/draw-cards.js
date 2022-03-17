@@ -1,5 +1,5 @@
 
-const CARD_TYPES = {
+const cardTypes = {
   'flat': 'Квартира',
   'palace': 'Дворец',
   'hotel': 'Отель',
@@ -42,12 +42,12 @@ const renderOfferPhotos = ((object, element) => {
   }
 });
 
-const renderOneCard = (({offer, author}) => {
+const renderCard = (({offer, author}) => {
   const cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
   cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  cardElement.querySelector('.popup__type').textContent = CARD_TYPES[offer.type];
+  cardElement.querySelector('.popup__type').textContent = cardTypes[offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
@@ -66,7 +66,7 @@ const renderOneCard = (({offer, author}) => {
 });
 
 const renderCards = ((cards) => {
-  cards.forEach(renderOneCard);
+  cards.forEach(renderCard);
 });
 
 const showOneCard = () => {
