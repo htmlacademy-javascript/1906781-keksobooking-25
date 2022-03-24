@@ -1,3 +1,5 @@
+import {initSlider} from './add-nouislider.js';
+
 const form = document.querySelector('.ad-form');
 const roomsNumber = form.querySelector('#room_number');
 const guestsNumber = form.querySelector('#capacity');
@@ -5,7 +7,7 @@ const housingType = form.querySelector('#type');
 const price = form.querySelector('#price');
 const checkin = form.querySelector('#timein');
 const checkout = form.querySelector('#timeout');
-
+const sliderElement = document.querySelector('.ad-form__slider');
 const guestsOptions = {
   '1': ['1'],
   '2': ['1', '2'],
@@ -34,6 +36,7 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__error',
 });
 
+
 const onRoomsGuestsChange = (evt) => {
   if(evt.target.closest('#room_number') || evt.target.closest('#capacity')) {
     pristine.validate(roomsNumber);
@@ -46,7 +49,7 @@ pristine.addValidator(roomsNumber, validateGuestsRoomsNumber, getGuestsErrorMess
 
 form.addEventListener('change', onRoomsGuestsChange);
 
-const onAccomodationTypeChange = () => {
+const onHousingTypeChange = () => {
   price.placeholder = minPrices[housingType.value];
   pristine.validate(price);
 };
@@ -55,7 +58,10 @@ const validateMinPrice = () => price.value >= minPrices[housingType.value];
 const getErrorPriceMessage = () => `Укажите цену не менее ${minPrices[housingType.value]} руб. за ночь`;
 pristine.addValidator(price, validateMinPrice, getErrorPriceMessage);
 
-housingType.addEventListener ('change', onAccomodationTypeChange);
+
+housingType.addEventListener ('change', onHousingTypeChange);
+
+initSlider(sliderElement, price, pristine.validate);
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
@@ -64,6 +70,10 @@ const onFormSubmit = (evt) => {
 
 const initValidation = () => {
   form.addEventListener('submit', onFormSubmit);
+};
+
+const validatePrice = () => {
+  pristine.validate(price);
 };
 
 const onCheckinChange = () => {
@@ -81,5 +91,6 @@ const synchronizeCheckinCheckout = () => {
 
 synchronizeCheckinCheckout();
 
-export {initValidation, synchronizeCheckinCheckout};
+
+export {initValidation, synchronizeCheckinCheckout, validatePrice};
 

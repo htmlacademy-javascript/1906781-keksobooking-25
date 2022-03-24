@@ -8,10 +8,6 @@ const cardTypes = {
 };
 
 
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const fragment = document.createDocumentFragment();
-const mapCanvas = document.querySelector('.map__canvas');
-
 const renderFeatures = ((object, element) => {
   const featuresContainer = element.querySelector('.popup__features');
   if ('features' in object) {
@@ -43,6 +39,7 @@ const renderOfferPhotos = ((object, element) => {
 });
 
 const renderCard = (({offer, author}) => {
+  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
@@ -62,16 +59,9 @@ const renderCard = (({offer, author}) => {
   renderOfferPhotos(offer, cardElement);
 
   cardElement.querySelector('.popup__avatar').src = author.avatar;
-  fragment.append(cardElement);
+  return cardElement;
 });
 
-const renderCards = ((cards) => {
-  cards.forEach(renderCard);
-});
 
-const showOneCard = () => {
-  mapCanvas.append(fragment.firstChild);
-};
-
-export {renderCards, showOneCard};
+export {renderCard};
 
