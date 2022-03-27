@@ -39,7 +39,8 @@ const marker = L.marker(
 
 marker.addTo(map);
 
-marker.on('moveend', (evt) => {
+
+marker.on('drag', (evt) => {
   address.value = evt.target.getLatLng();
   const latlng = evt.target.getLatLng();
   address.value = `${(latlng.lat).toFixed(5)}, ${(latlng.lng).toFixed(5)}`;
@@ -64,4 +65,5 @@ cards.forEach((card) => {
     .addTo(map)
     .bindPopup(renderCard(card));
 });
+
 
