@@ -23,12 +23,6 @@ const activatePage = () => {
   removeDisabled(mapFieldset);
 };
 
-const isActive = true;
-
-if (!isActive) {
-  deactivatePage();
-} else {
-  activatePage();
-}
+export {activatePage, deactivatePage};
 
 
