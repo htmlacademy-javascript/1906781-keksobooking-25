@@ -1,10 +1,8 @@
 import {activatePage, deactivatePage} from './active-inactive.js';
-import {createCardsData} from './data.js';
 import {renderCard} from './draw-cards.js';
 const address = document.querySelector('#address');
 
 deactivatePage();
-const cards = createCardsData();
 
 const map = L.map('map-canvas')
   .on('load', activatePage)
@@ -39,12 +37,18 @@ const marker = L.marker(
 
 marker.addTo(map);
 
-
 marker.on('drag', (evt) => {
   address.value = evt.target.getLatLng();
   const latlng = evt.target.getLatLng();
   address.value = `${(latlng.lat).toFixed(5)}, ${(latlng.lng).toFixed(5)}`;
 });
+
+const resetMarker = () => {
+  const latlng = L.latLng(35.68949, 139.69171);
+  marker.setLatLng(latlng);
+};
+
+const pointsGroup = L.layerGroup().addTo(map);
 
 const pointIcon = L.icon({
   iconUrl: './img/pin.svg',
@@ -52,7 +56,7 @@ const pointIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-cards.forEach((card) => {
+const drawPoint = (card) => {
   const {location} = card;
   const point = L.marker({
     lat: location.lat,
@@ -62,8 +66,18 @@ cards.forEach((card) => {
     icon: pointIcon,
   });
   point
-    .addTo(map)
+    .addTo(pointsGroup)
     .bindPopup(renderCard(card));
-});
+};
 
+const drawPoints = (cards) => {
+  cards.forEach((card) => {
+    drawPoint(card);
+  });
+};
 
+const clearPoints = () => {
+  pointsGroup.clearLayers();
+};
+
+export {drawPoints, resetMarker, clearPoints};

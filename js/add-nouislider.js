@@ -22,6 +22,7 @@ const initSlider=(sliderElement, validatedField, cb)=>{
     cb(validatedField);
   });
 
+
   validatedField.value = '';
 };
 
