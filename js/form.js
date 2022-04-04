@@ -9,7 +9,6 @@ const roomsNumber = form.querySelector('#room_number');
 const guestsNumber = form.querySelector('#capacity');
 const housingType = form.querySelector('#type');
 const price = form.querySelector('#price');
-const features = form.querySelectorAll('.features__checkbox');
 const checkin = form.querySelector('#timein');
 const checkout = form.querySelector('#timeout');
 const sliderElement = document.querySelector('.ad-form__slider');
@@ -118,23 +117,10 @@ const onCheckoutChange = () => {
 };
 
 const onFormSubmit = () => {
-  form.querySelector('#avatar').value = '';
-  form.querySelector('#title').value = '';
-  form.querySelector('#address').value='35.68949, 139.69171';
-  housingType.value = 'flat';
-  price.value = '';
+  form.reset();
   sliderElement.noUiSlider.updateOptions({
     start: 1000,
   });
-  checkin.value = '12:00';
-  checkout.value = '12:00';
-  roomsNumber.value = '1';
-  guestsNumber.value = '1';
-  features.forEach((feature) => {
-    feature.checked = false;
-  });
-  form.querySelector('#description').value = '';
-  form.querySelector('#images').value = '';
   resetMarker();
   clearPoints();
 };

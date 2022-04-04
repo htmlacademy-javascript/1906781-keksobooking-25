@@ -16,16 +16,17 @@ function closeMessage () {
     body.removeChild(document.querySelector('.error'));
   }
   document.removeEventListener('keydown', onPopUpEscKeyDown);
-  document.removeEventListener('click', onScreenClick);
+  document.removeEventListener('click', onMessageClick);
+
 }
 
-function onScreenClick () {
+function onMessageClick () {
   closeMessage();
 }
 
 const addMessagesEvents = (node) => {
   node.addEventListener('keydown', onPopUpEscKeyDown);
-  node.addEventListener('click', onScreenClick);
+  node.addEventListener('click', onMessageClick);
 };
 const showSuccessAlert = (() => {
   const templateSuccess = document.querySelector('#success').content.querySelector('.success');
@@ -42,8 +43,8 @@ const showErrorAlert =(() => {
   const errorMessageElement = templateError.cloneNode(true);
   errorFragment.append(errorMessageElement);
   body.append(errorFragment);
-  document.addEventListener('keydown', onPopUpEscKeyDown);
   addMessagesEvents(document);
+  document.querySelector('.error__button').addEventListener('click', onMessageClick);
 });
 
 export {showSuccessAlert, showErrorAlert};
