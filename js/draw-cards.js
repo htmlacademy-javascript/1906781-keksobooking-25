@@ -7,7 +7,6 @@ const cardTypes = {
   'bungalow': 'Бунгало'
 };
 
-
 const renderFeatures = ((object, element) => {
   const featuresContainer = element.querySelector('.popup__features');
   if ('features' in object) {

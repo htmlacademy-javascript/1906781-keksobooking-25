@@ -1,8 +1,18 @@
-
-import {initValidation, synchronizeCheckinCheckout}  from './form-validation.js';
 import './map.js';
+import {drawPoints} from './map.js';
+import {getData} from './api.js';
+import {setUserFormSubmit, synchronizeCheckinCheckout, resetByResetClick, resetPage}  from './form.js';
 
 
-initValidation();
+getData((cards) => {
+  drawPoints(cards);
+  resetByResetClick(() => drawPoints(cards));
+});
+
+setUserFormSubmit(() => {
+  resetPage(()=>getData((cards) => {
+    drawPoints(cards);
+  }));
+});
 synchronizeCheckinCheckout();
 

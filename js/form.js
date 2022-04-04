@@ -1,4 +1,8 @@
 import {initSlider} from './add-nouislider.js';
+import {showErrorAlert} from './form-submit-messages.js';
+import {sendData} from './api.js';
+import {resetMarker, clearPoints} from './map.js';
+import {showSuccessAlert} from './form-submit-messages.js';
 
 const form = document.querySelector('.ad-form');
 const roomsNumber = form.querySelector('#room_number');
@@ -8,6 +12,9 @@ const price = form.querySelector('#price');
 const checkin = form.querySelector('#timein');
 const checkout = form.querySelector('#timeout');
 const sliderElement = document.querySelector('.ad-form__slider');
+const submitButton = form. querySelector('.ad-form__submit');
+const resetButton = form.querySelector('.ad-form__reset');
+
 const guestsOptions = {
   '1': ['1'],
   '2': ['1', '2'],
@@ -29,6 +36,17 @@ const minPrices = {
   'house': 5000,
   'palace': 10000
 };
+
+
+const blockSubmitButton = (() => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется...';
+});
+
+const unblockSubmitButton = (() => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+});
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -63,13 +81,27 @@ housingType.addEventListener ('change', onHousingTypeChange);
 
 initSlider(sliderElement, price, pristine.validate);
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-};
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
-const initValidation = () => {
-  form.addEventListener('submit', onFormSubmit);
+    const isValid = pristine.validate();
+    if(isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          showSuccessAlert();
+          unblockSubmitButton();
+        },
+        () => {
+          showErrorAlert();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
 };
 
 const validatePrice = () => {
@@ -84,13 +116,33 @@ const onCheckoutChange = () => {
   checkin.value = checkout.value;
 };
 
+const onFormSubmit = () => {
+  form.reset();
+  sliderElement.noUiSlider.updateOptions({
+    start: 1000,
+  });
+  resetMarker();
+  clearPoints();
+};
+
+const resetPage = (cb) => {
+  onFormSubmit();
+  cb();
+};
+
 const synchronizeCheckinCheckout = () => {
   checkin.addEventListener('change', onCheckinChange);
   checkout.addEventListener('change', onCheckoutChange);
 };
 
+const resetByResetClick = (cb) => {
+  resetButton.addEventListener('click', () => {
+    onFormSubmit();
+    cb();
+  });
+};
 synchronizeCheckinCheckout();
 
 
-export {initValidation, synchronizeCheckinCheckout, validatePrice};
+export {setUserFormSubmit, synchronizeCheckinCheckout, validatePrice, resetByResetClick, resetPage};
 
