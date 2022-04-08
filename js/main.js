@@ -1,18 +1,18 @@
-import './map.js';
-import {drawPoints} from './map.js';
+import { deactivatePage } from './active-inactive.js';
+import {enableOfferForm, drawPoints} from './map.js';
 import {getData} from './api.js';
-import {setUserFormSubmit, synchronizeCheckinCheckout, resetByResetClick, resetPage}  from './form.js';
+import {setUserFormSubmit, resetByResetClick, onFormSubmit}  from './form.js';
+import {initFilters} from './filters.js';
+const RERENDER_DELAY = 5000;
 
-
+deactivatePage();
+enableOfferForm();
+resetByResetClick();
 getData((cards) => {
   drawPoints(cards);
-  resetByResetClick(() => drawPoints(cards));
+  initFilters(cards, RERENDER_DELAY, drawPoints);
 });
 
-setUserFormSubmit(() => {
-  resetPage(()=>getData((cards) => {
-    drawPoints(cards);
-  }));
-});
-synchronizeCheckinCheckout();
+setUserFormSubmit(onFormSubmit);
+
 

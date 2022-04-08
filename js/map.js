@@ -1,11 +1,10 @@
-import {activatePage, deactivatePage} from './active-inactive.js';
+import {onMapLoad, onPointsLoad} from './active-inactive.js';
 import {renderCard} from './draw-cards.js';
+
+const SIMILAR_OFFERS_COUNT = 10;
+
 const address = document.querySelector('#address');
-
-deactivatePage();
-
 const map = L.map('map-canvas')
-  .on('load', activatePage)
   .setView({
     lat: 35.68949,
     lng: 139.69171,
@@ -17,6 +16,10 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
+const enableOfferForm = () => {
+  map.whenReady(onMapLoad);
+};
 
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
@@ -71,8 +74,12 @@ const drawPoint = (card) => {
 };
 
 const drawPoints = (cards) => {
-  cards.forEach((card) => {
-    drawPoint(card);
+  map.whenReady(() => {
+    cards.slice(0,SIMILAR_OFFERS_COUNT)
+      .forEach((card) => {
+        drawPoint(card);
+      });
+    onPointsLoad();
   });
 };
 
@@ -80,4 +87,8 @@ const clearPoints = () => {
   pointsGroup.clearLayers();
 };
 
-export {drawPoints, resetMarker, clearPoints};
+const closeOffer = () => {
+  map.closePopup();
+};
+
+export {enableOfferForm, drawPoints, resetMarker, clearPoints, closeOffer};
