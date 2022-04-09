@@ -1,8 +1,9 @@
 import {initSlider} from './add-nouislider.js';
 import {showErrorAlert} from './form-submit-messages.js';
 import {sendData} from './api.js';
-import {resetMarker, closeOffer} from './map.js';
+import {resetMarker} from './map.js';
 import {showSuccessAlert} from './form-submit-messages.js';
+import {resetFilters} from './filters.js';
 
 const form = document.querySelector('.ad-form');
 const roomsNumber = form.querySelector('#room_number');
@@ -98,8 +99,8 @@ const resetPage = () => {
   });
   price.placeholder = 1000;
   resetMarker();
-  closeOffer();
   pristine.reset();
+  resetFilters();
 };
 
 const resetByResetClick = () => {

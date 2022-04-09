@@ -82,4 +82,15 @@ const initFilters = (cards, RERENDER_DELAY, drawPoints) => {
   });
 };
 
-export {initFilters};
+const resetFilters = () => {
+  mapFilters.reset();
+};
+
+const resetPoints = (cb) => {
+  mapFilters.addEventListener('reset', () => {
+    clearPoints();
+    cb();
+  });
+};
+
+export {initFilters, resetFilters, resetPoints};

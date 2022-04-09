@@ -87,8 +87,5 @@ const clearPoints = () => {
   pointsGroup.clearLayers();
 };
 
-const closeOffer = () => {
-  map.closePopup();
-};
 
-export {enableOfferForm, drawPoints, resetMarker, clearPoints, closeOffer};
+export {enableOfferForm, drawPoints, resetMarker, clearPoints};
