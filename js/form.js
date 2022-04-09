@@ -15,7 +15,7 @@ const sliderElement = document.querySelector('.ad-form__slider');
 const submitButton = form. querySelector('.ad-form__submit');
 const resetButton = form.querySelector('.ad-form__reset');
 
-let minPrice = null;
+let minPrice = 1000;
 
 const guestsOptions = {
   '1': ['1'],
@@ -60,6 +60,7 @@ const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextClass: 'ad-form__error',
+
 });
 
 
@@ -95,8 +96,10 @@ const resetPage = () => {
   sliderElement.noUiSlider.updateOptions({
     start: 1000,
   });
+  price.placeholder = 1000;
   resetMarker();
   closeOffer();
+  pristine.reset();
 };
 
 const resetByResetClick = () => {

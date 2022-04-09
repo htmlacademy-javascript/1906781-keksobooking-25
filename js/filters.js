@@ -5,7 +5,6 @@ const housingType = mapFilters.querySelector('#housing-type');
 const roomsNumber = mapFilters.querySelector('#housing-rooms');
 const housingPrice = mapFilters.querySelector('#housing-price');
 const guestsNumber = mapFilters.querySelector('#housing-guests');
-const housingFeatures = mapFilters.querySelector('#housing-features');
 
 let filterTimer = null;
 
@@ -42,17 +41,20 @@ const checkGuests = (items) => {
   return items;
 };
 
-const findElement = (items, innerData) => {
-  let data = [];
-  data = items.filter((item) => item.offer.features !== undefined);
-  data = data.map((item, index, array) => {
-    for (let counter = 0; counter < innerData.length; counter++) {
-      if(!item.offer.features.includes(innerData[counter])) {
-        array.splice(index, 1);
-      }
+const filterFeatures = (item, innerData) => {
+  for(let i=0; i<innerData.length; i++){
+    if(item.indexOf(innerData[i]) === -1) {
+      return false;
     }
-  });
-  return data;
+  }
+  return true;
+};
+
+const findElement = (items, innerData) => {
+  if(innerData.length !== 0) {
+    return items.filter((item) => item.offer.features !== undefined).filter((item) => filterFeatures(item.offer.features, innerData));
+  }
+  return items;
 };
 
 const checkFeatures = (items) => {
@@ -62,7 +64,6 @@ const checkFeatures = (items) => {
     selectedFeatures.push(feature.value);
   });
   return findElement(items, selectedFeatures);
-
 };
 
 const initFilters = (cards, RERENDER_DELAY, drawPoints) => {
@@ -74,7 +75,7 @@ const initFilters = (cards, RERENDER_DELAY, drawPoints) => {
       sortedCards = checkRooms(sortedCards);
       sortedCards = checkGuests(sortedCards);
       sortedCards = checkPrice(sortedCards);
-      housingFeatures.addEventListener('change', () => checkFeatures(sortedCards));
+      sortedCards = checkFeatures(sortedCards);
       clearPoints();
       drawPoints(sortedCards);
     }, RERENDER_DELAY);
