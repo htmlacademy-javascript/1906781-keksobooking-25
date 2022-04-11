@@ -1,12 +1,4 @@
 
-const cardTypes = {
-  'flat': 'Квартира',
-  'palace': 'Дворец',
-  'hotel': 'Отель',
-  'house': 'Дом',
-  'bungalow': 'Бунгало'
-};
-
 const renderFeatures = ((object, element) => {
   const featuresContainer = element.querySelector('.popup__features');
   if ('features' in object) {
@@ -43,7 +35,7 @@ const renderCard = (({offer, author}) => {
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
   cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  cardElement.querySelector('.popup__type').textContent = cardTypes[offer.type];
+  cardElement.querySelector('.popup__type').textContent = offer.type;
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 

@@ -1,10 +1,8 @@
 import {showLoadAlert} from './utils.js';
 
-
-const SIMILAR_OFFERS_COUNT = 10;
 const GET_DATA_ADDRESS = 'https://25.javascript.pages.academy/keksobooking/data';
 const SEND_DATA_ADDRESS = 'https://25.javascript.pages.academy/keksobooking';
-const message = 'К сожалению, не удалось загрузить данные. Сервер временно недоступен.';
+const MESSAGE = 'К сожалению, не удалось загрузить данные. Сервер временно недоступен.';
 
 const getData = (onSuccess) => {
   fetch(GET_DATA_ADDRESS)
@@ -12,14 +10,14 @@ const getData = (onSuccess) => {
       if (response.ok) {
         response.json()
           .then((cards) => {
-            onSuccess(cards.slice(0, SIMILAR_OFFERS_COUNT));
+            onSuccess(cards);
           });
       } else {
-        throw new Error(message);
+        throw new Error(MESSAGE);
       }
     })
     .catch(() => {
-      showLoadAlert(message);
+      showLoadAlert(MESSAGE);
     });
 };
 

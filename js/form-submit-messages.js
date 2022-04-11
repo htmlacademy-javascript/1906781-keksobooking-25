@@ -1,6 +1,25 @@
 import {isEscapeKey} from './utils.js';
 
 const body = document.querySelector('body');
+const templateSuccess = document.querySelector('#success').content.querySelector('.success');
+const templateError = document.querySelector('#error').content.querySelector('.error');
+
+const createMessageElement = (item) => {
+  const fragment = document.createDocumentFragment();
+  const itemFragment = item.cloneNode(true);
+  fragment.append(itemFragment);
+  body.append(fragment);
+};
+
+createMessageElement(templateSuccess);
+const successMessage = body.querySelector('.success');
+successMessage.style.visibility = 'hidden';
+
+createMessageElement(templateError);
+const errorMessage = body.querySelector('.error');
+errorMessage.style.visibility = 'hidden';
+
+const errorButton = errorMessage.querySelector('.error__button');
 
 const onPopUpEscKeyDown = (evt) => {
   if(isEscapeKey(evt)) {
@@ -10,14 +29,10 @@ const onPopUpEscKeyDown = (evt) => {
 };
 
 function closeMessage () {
-  if (body.contains(document.querySelector('.success'))) {
-    body.removeChild(document.querySelector('.success'));
-  } else {
-    body.removeChild(document.querySelector('.error'));
-  }
+  successMessage.style.visibility = 'hidden';
+  errorMessage.style.visibility = 'hidden';
   document.removeEventListener('keydown', onPopUpEscKeyDown);
   document.removeEventListener('click', onMessageClick);
-
 }
 
 function onMessageClick () {
@@ -29,22 +44,16 @@ const addMessagesEvents = (node) => {
   node.addEventListener('click', onMessageClick);
 };
 const showSuccessAlert = (() => {
-  const templateSuccess = document.querySelector('#success').content.querySelector('.success');
-  const successFragment = document.createDocumentFragment();
-  const successMessageElement = templateSuccess.cloneNode(true);
-  successFragment.append(successMessageElement);
-  body.append(successFragment);
+  body.insertBefore(errorMessage, successMessage);
+  successMessage.style.visibility = 'visible';
   addMessagesEvents(document);
 });
 
 const showErrorAlert =(() => {
-  const templateError = document.querySelector('#error').content.querySelector('.error');
-  const errorFragment = document.createDocumentFragment();
-  const errorMessageElement = templateError.cloneNode(true);
-  errorFragment.append(errorMessageElement);
-  body.append(errorFragment);
+  body.insertBefore(successMessage, errorMessage);
+  errorMessage.style.visibility = 'visible';
   addMessagesEvents(document);
-  document.querySelector('.error__button').addEventListener('click', onMessageClick);
+  errorButton.addEventListener('click', onMessageClick);
 });
 
 export {showSuccessAlert, showErrorAlert};
