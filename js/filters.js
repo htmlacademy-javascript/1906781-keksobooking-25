@@ -8,38 +8,24 @@ const guestsNumber = mapFilters.querySelector('#housing-guests');
 
 let filterTimer = null;
 
-const checkType = (items) => {
-  if(housingType.value !== 'any'){
-    return items.filter((item) => item.offer.type === housingType.value);
-  }
-  return items;
-};
+const checkType = (items) => housingType.value !== 'any' ? items.filter((item) => item.offer.type === housingType.value) : items;
+
 const checkPrice = (items) => {
-  if(housingPrice.value !== 'any'){
-    if(housingPrice.value === 'middle') {
+  switch(housingPrice.value) {
+    case 'middle':
       return items.filter((item) => item.offer.price >= 10000 && item.offer.price <= 50000);
-    } else if (housingPrice.value === 'low') {
+    case 'low':
       return items.filter((item) => item.offer.price < 10000);
-    } else if (housingPrice.value === 'high') {
+    case 'high':
       return items.filter((item) => item.offer.price > 50000);
-    }
+    default:
+      return items;
   }
-  return items;
 };
 
-const checkRooms = (items) => {
-  if(roomsNumber.value !== 'any'){
-    return items.filter((item) => item.offer.rooms === +(roomsNumber.value));
-  }
-  return items;
-};
+const checkRooms = (items) => roomsNumber.value !== 'any' ? items.filter((item) => item.offer.rooms === +(roomsNumber.value)) : items;
 
-const checkGuests = (items) => {
-  if(guestsNumber.value !== 'any'){
-    return items.filter((item) => item.offer.guests === +(guestsNumber.value));
-  }
-  return items;
-};
+const checkGuests = (items) => guestsNumber.value !== 'any' ? items.filter((item) => item.offer.guests === +(guestsNumber.value)) : items;
 
 const filterFeatures = (item, innerData) => {
   for(let i=0; i<innerData.length; i++){
@@ -50,12 +36,7 @@ const filterFeatures = (item, innerData) => {
   return true;
 };
 
-const findElement = (items, innerData) => {
-  if(innerData.length !== 0) {
-    return items.filter((item) => item.offer.features !== undefined).filter((item) => filterFeatures(item.offer.features, innerData));
-  }
-  return items;
-};
+const findElement = (items, innerData) => innerData.length !== 0 ? items.filter((item) => item.offer.features !== undefined).filter((item) => filterFeatures(item.offer.features, innerData)) : items;
 
 const checkFeatures = (items) => {
   const features = mapFilters.querySelectorAll('input[type = "checkbox"]:checked');

@@ -5,7 +5,7 @@ const avatarPreview = document.querySelector('.avatar_preview');
 const flatPhotoChooser = document.querySelector('#images');
 const flatPhotoContainer = document.querySelector('.ad-form__photo');
 
-flatPhotoContainer.insertAdjacentHTML('afterbegin', '<img src="" alt="Аватар пользователя" width="40" height="44">');
+flatPhotoContainer.insertAdjacentHTML('afterbegin', '<img src="" alt="Фото объекта размещения" width="40" height="44">');
 const flatPhotoPreview = flatPhotoContainer.querySelector('img');
 flatPhotoPreview.style.visibility = 'hidden';
 
@@ -26,4 +26,10 @@ const initPhotoLoad = () => {
   loadPhoto(flatPhotoChooser, flatPhotoPreview);
 };
 
-export {initPhotoLoad};
+const resetPhotoPreviews = () => {
+  avatarPreview.src = 'img/muffin-grey.svg';
+  flatPhotoPreview.src = '';
+  flatPhotoPreview.style.visibility = 'hidden';
+};
+
+export {initPhotoLoad, resetPhotoPreviews};

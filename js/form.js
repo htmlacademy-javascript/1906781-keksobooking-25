@@ -4,6 +4,23 @@ import {sendData} from './api.js';
 import {resetMarker} from './map.js';
 import {showSuccessAlert} from './form-submit-messages.js';
 import {resetFilters} from './filters.js';
+import {resetPhotoPreviews} from './load-photos.js';
+
+const DEFAULT_PRICE = 1000;
+
+const GuestsOptions = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
+const ErrorMessages = {
+  '1': 'В 1-й комнате размещается 1 гость',
+  '2': 'В 2-х комнатах размещается 2 гостя или менее',
+  '3': 'В 3-х комнатах размещается 3 гостя или менее',
+  '100': 'В 100 комнатах невозможно размещение гостей'
+};
 
 const form = document.querySelector('.ad-form');
 const roomsNumber = form.querySelector('#room_number');
@@ -16,21 +33,7 @@ const sliderElement = document.querySelector('.ad-form__slider');
 const submitButton = form. querySelector('.ad-form__submit');
 const resetButton = form.querySelector('.ad-form__reset');
 
-let minPrice = 1000;
-
-const guestsOptions = {
-  '1': ['1'],
-  '2': ['1', '2'],
-  '3': ['1', '2', '3'],
-  '100': ['0']
-};
-
-const errorMessages = {
-  '1': 'В 1-й комнате размещается 1 гость',
-  '2': 'В 2-х комнатах размещается 2 гостя или менее',
-  '3': 'В 3-х комнатах размещается 3 гостя или менее',
-  '100': 'В 100 комнатах невозможно размещение гостей'
-};
+let minPrice = DEFAULT_PRICE;
 
 const blockSubmitButton = (() => {
   submitButton.disabled = true;
@@ -64,15 +67,14 @@ const pristine = new Pristine(form, {
 
 });
 
-
 const onRoomsGuestsChange = (evt) => {
   if(evt.target.closest('#room_number') || evt.target.closest('#capacity')) {
     pristine.validate(roomsNumber);
   }
 };
 
-const validateGuestsRoomsNumber = () => guestsOptions[roomsNumber.value].includes(guestsNumber.value);
-const getGuestsErrorMessage = () => errorMessages[roomsNumber.value];
+const validateGuestsRoomsNumber = () => GuestsOptions[roomsNumber.value].includes(guestsNumber.value);
+const getGuestsErrorMessage = () => ErrorMessages[roomsNumber.value];
 pristine.addValidator(roomsNumber, validateGuestsRoomsNumber, getGuestsErrorMessage);
 
 form.addEventListener('change', onRoomsGuestsChange);
@@ -82,7 +84,6 @@ const onHousingTypeChange = () => {
   price.placeholder = minPrice;
   pristine.validate(price);
 };
-
 
 const validateMinPrice = () => price.value >= minPrice;
 const getErrorPriceMessage = () => `Укажите цену не менее ${minPrice} руб. за ночь`;
@@ -95,12 +96,15 @@ initSlider(sliderElement, price, pristine.validate);
 const resetPage = () => {
   form.reset();
   sliderElement.noUiSlider.updateOptions({
-    start: 1000,
+    start: DEFAULT_PRICE,
   });
-  price.placeholder = 1000;
+  price.placeholder = DEFAULT_PRICE;
+  price.value = '';
+  minPrice = DEFAULT_PRICE;
   resetMarker();
   pristine.reset();
   resetFilters();
+  resetPhotoPreviews();
 };
 
 const resetByResetClick = () => {

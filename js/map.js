@@ -1,4 +1,4 @@
-import {onMapLoad, onPointsLoad} from './active-inactive.js';
+import {onMapLoad, onPointsLoad} from './page.js';
 import {renderCard} from './draw-cards.js';
 
 const SIMILAR_OFFERS_COUNT = 10;
