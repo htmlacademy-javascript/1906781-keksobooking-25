@@ -18,10 +18,6 @@ L.tileLayer(
   },
 ).addTo(map);
 
-const enableOfferForm = () => {
-  map.whenReady(onMapLoad);
-};
-
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
   iconSize: [52, 52],
@@ -75,13 +71,16 @@ const drawPoint = (card) => {
 };
 
 const drawPoints = (cards) => {
-  map.whenReady(() => {
-    cards.slice(0,SIMILAR_OFFERS_COUNT)
-      .forEach((card) => {
-        drawPoint(card);
-      });
-    onPointsLoad();
-  });
+  cards.slice(0,SIMILAR_OFFERS_COUNT)
+    .forEach((card) => {
+      drawPoint(card);
+    });
+  onPointsLoad();
+};
+
+const enablePage = () => {
+  map.whenReady(onMapLoad);
+
 };
 
 const clearPoints = () => {
@@ -89,4 +88,4 @@ const clearPoints = () => {
 };
 
 
-export {enableOfferForm, drawPoints, resetMarker, clearPoints};
+export {enablePage, drawPoints, resetMarker, clearPoints};

@@ -8,24 +8,25 @@ const guestsNumber = mapFilters.querySelector('#housing-guests');
 
 let filterTimer = null;
 
-const checkType = (items) => housingType.value !== 'any' ? items.filter((item) => item.offer.type === housingType.value) : items;
+const checkType = (item) => housingType.value === 'any' ? true : item.offer.type === housingType.value;
 
-const checkPrice = (items) => {
-  switch(housingPrice.value) {
-    case 'middle':
-      return items.filter((item) => item.offer.price >= 10000 && item.offer.price <= 50000);
-    case 'low':
-      return items.filter((item) => item.offer.price < 10000);
-    case 'high':
-      return items.filter((item) => item.offer.price > 50000);
-    default:
-      return items;
+const checkPrice = (item) => {
+  if (housingPrice.value === 'any') {
+    return true;
+  } else {
+    switch (housingPrice.value) {
+      case 'middle':
+        return item.offer.price >= 10000 && item.offer.price <= 50000;
+      case 'low':
+        return item.offer.price < 10000;
+      case 'high':
+        return item.offer.price > 50000;
+    }
   }
 };
 
-const checkRooms = (items) => roomsNumber.value !== 'any' ? items.filter((item) => item.offer.rooms === +(roomsNumber.value)) : items;
-
-const checkGuests = (items) => guestsNumber.value !== 'any' ? items.filter((item) => item.offer.guests === +(guestsNumber.value)) : items;
+const checkRooms = (item) => roomsNumber.value === 'any' ? true : item.offer.rooms === +(roomsNumber.value);
+const checkGuests = (item) => guestsNumber.value === 'any' ? true : item.offer.guests === +(guestsNumber.value);
 
 const filterFeatures = (item, innerData) => {
   for(let i=0; i<innerData.length; i++){
@@ -36,27 +37,21 @@ const filterFeatures = (item, innerData) => {
   return true;
 };
 
-const findElement = (items, innerData) => innerData.length !== 0 ? items.filter((item) => item.offer.features !== undefined).filter((item) => filterFeatures(item.offer.features, innerData)) : items;
+const findElement = (item, innerData) => innerData.length === 0 ? true : item.offer.features !== undefined && filterFeatures(item.offer.features, innerData);
 
-const checkFeatures = (items) => {
-  const features = mapFilters.querySelectorAll('input[type = "checkbox"]:checked');
-  const selectedFeatures = [];
-  features.forEach((feature) => {
-    selectedFeatures.push(feature.value);
-  });
-  return findElement(items, selectedFeatures);
+const checkFeatures = (item) => {
+  const selectedFeatures = Array.from(mapFilters.querySelectorAll('input[name = "features"]:checked')).map((element) => element.value);
+  return findElement(item, selectedFeatures);
 };
+
+const filterItem = (item) => checkType(item)&&checkPrice(item)&&checkGuests(item)&&checkRooms(item)&&checkFeatures(item);
 
 const initFilters = (cards, RERENDER_DELAY, drawPoints) => {
   mapFilters.addEventListener('change', () => {
     clearTimeout(filterTimer);
     filterTimer = setTimeout(() => {
       let sortedCards = [...cards];
-      sortedCards = checkType(sortedCards);
-      sortedCards = checkRooms(sortedCards);
-      sortedCards = checkGuests(sortedCards);
-      sortedCards = checkPrice(sortedCards);
-      sortedCards = checkFeatures(sortedCards);
+      sortedCards = sortedCards.filter((item) => (filterItem(item)));
       clearPoints();
       drawPoints(sortedCards);
     }, RERENDER_DELAY);
