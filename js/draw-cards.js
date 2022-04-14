@@ -34,10 +34,10 @@ const renderOfferPhotos = ((object, element) => {
   if ('photos' in object) {
     const img = photosContainer.querySelector('.popup__photo');
     photosContainer.removeChild(img);
-    for (let count = 0; count < object.photos.length; count++) {
-      const imgElementHTML = `<img src=${object.photos[count]} class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+    object.photos.forEach((item) => {
+      const imgElementHTML = `<img src=${item} class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
       photosContainer.insertAdjacentHTML('beforeend', imgElementHTML);
-    }
+    });
   } else {
     photosContainer.style.display = 'none';
   }

@@ -1,5 +1,10 @@
 import {initPhotoLoad} from './load-photos.js';
 import {synchronizeCheckinCheckout} from './form.js';
+import {getData} from './api.js';
+import {drawPoints} from './map.js';
+import {initFilters, resetPoints} from './filters.js';
+
+const RERENDER_DELAY = 500;
 
 const adForm = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
@@ -8,8 +13,13 @@ const mapSelects = mapFilter.querySelectorAll('select');
 const mapFieldset = mapFilter.querySelector('fieldset');
 const slider = adForm.querySelector('.ad-form__slider');
 
-const setDisabled = (element) => element.setAttribute('disabled', true);
-const removeDisabled = (element) => element.removeAttribute('disabled');
+const setDisabled = (element) => {
+  element.disabled = true;
+};
+
+const removeDisabled = (element) => {
+  element.disabled = false;
+};
 
 const deactivatePage = () => {
   adForm.classList.add('ad-form--disabled');
@@ -26,6 +36,13 @@ const onMapLoad = () => {
   removeDisabled(slider);
   initPhotoLoad();
   synchronizeCheckinCheckout();
+  getData((cards) => {
+    drawPoints(cards);
+    initFilters(cards, RERENDER_DELAY, drawPoints);
+    resetPoints(() => {
+      drawPoints(cards);
+    });
+  });
 };
 
 const onPointsLoad = () => {

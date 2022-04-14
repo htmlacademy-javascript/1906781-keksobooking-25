@@ -1,8 +1,7 @@
 import {initSlider} from './add-nouislider.js';
-import {showErrorAlert} from './form-submit-messages.js';
+import {showSuccessAlert, showErrorAlert} from './form-submit-messages.js';
 import {sendData} from './api.js';
 import {resetMarker} from './map.js';
-import {showSuccessAlert} from './form-submit-messages.js';
 import {resetFilters} from './filters.js';
 import {resetPhotoPreviews} from './load-photos.js';
 
@@ -144,10 +143,6 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-const validatePrice = () => {
-  pristine.validate(price);
-};
-
 const onCheckinChange = () => {
   checkout.value = checkin.value;
 };
@@ -162,5 +157,5 @@ const synchronizeCheckinCheckout = () => {
 };
 
 
-export {setUserFormSubmit, synchronizeCheckinCheckout, validatePrice, resetByResetClick, onFormSubmit};
+export {setUserFormSubmit, synchronizeCheckinCheckout, resetByResetClick, onFormSubmit};
 
