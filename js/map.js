@@ -2,12 +2,13 @@ import {onMapLoad, onPointsLoad} from './page.js';
 import {renderCard} from './draw-cards.js';
 
 const SIMILAR_OFFERS_COUNT = 10;
-
+const CENTER_LNG = 139.69171;
+const CENTER_LAT = 35.68949;
 const address = document.querySelector('#address');
 const map = L.map('map-canvas')
   .setView({
-    lat: 35.68949,
-    lng: 139.69171,
+    lat: CENTER_LAT,
+    lng: CENTER_LNG,
   },10);
 
 L.tileLayer(
@@ -29,8 +30,8 @@ const mainPinIcon = L.icon({
 
 const marker = L.marker(
   {
-    lat: 35.68949,
-    lng: 139.69171,
+    lat: CENTER_LAT,
+    lng: CENTER_LNG,
   },
   {
     draggable: true,
@@ -47,7 +48,7 @@ marker.on('drag', (evt) => {
 });
 
 const resetMarker = () => {
-  const latlng = L.latLng(35.68949, 139.69171);
+  const latlng = L.latLng(CENTER_LAT, CENTER_LNG);
   marker.setLatLng(latlng);
 };
 

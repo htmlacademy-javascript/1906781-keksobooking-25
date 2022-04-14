@@ -1,3 +1,17 @@
+const getHousingType = (value) => {
+  switch(value) {
+    case 'flat':
+      return 'Квартира';
+    case 'hotel':
+      return 'Отель';
+    case 'palace':
+      return 'Дворец';
+    case 'house':
+      return 'Дом';
+    case 'bungalow':
+      return 'Бунгало';
+  }
+};
 
 const renderFeatures = ((object, element) => {
   const featuresContainer = element.querySelector('.popup__features');
@@ -35,7 +49,7 @@ const renderCard = (({offer, author}) => {
   cardElement.querySelector('.popup__title').textContent = offer.title;
   cardElement.querySelector('.popup__text--address').textContent = offer.address;
   cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  cardElement.querySelector('.popup__type').textContent = offer.type;
+  cardElement.querySelector('.popup__type').textContent = getHousingType(offer.type);
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 

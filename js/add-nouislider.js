@@ -1,5 +1,5 @@
 
-const initSlider=(sliderElement, validatedField, cb)=>{
+const initSlider = (sliderElement, validatedField, cb) => {
   noUiSlider.create(sliderElement, {
     range: {
       min: 0,
